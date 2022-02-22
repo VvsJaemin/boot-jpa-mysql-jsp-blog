@@ -4,6 +4,7 @@ package com.cos.blog.model;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 @Builder
 @AllArgsConstructor
 @Entity  // User 클래스가 Mysql에 테이블이 생성
+//@DynamicInsert // insert시 null 값은 제외
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +30,10 @@ public class User {
     @Column(nullable = false, length = 50)
     private String email;
 
-    @ColumnDefault("'user'")
-    private String role; // Enum을 쓰는게 좋다다
+    //@ColumnDefault("user")
+    @Enumerated(EnumType.STRING)
+    private RoleType role; // Enum을 쓰는게 좋다다
 
-   @CreationTimestamp
+    @CreationTimestamp
     private Timestamp createDate;
 }
