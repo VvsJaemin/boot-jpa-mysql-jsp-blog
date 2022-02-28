@@ -7,7 +7,7 @@
 
 <div class="container">
 
-    <form action="/user/join" method="post">
+    <form action="/join" method="post">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" placeholder="Enter username" id="username">

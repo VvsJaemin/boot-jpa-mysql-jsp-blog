@@ -20,7 +20,7 @@ let index = {
 
         $.ajax({
             type: "POST",
-            url: "/api/user",
+            url: "/auth/joinProc",
             data: JSON.stringify(data), // body data
             contentType: "application/json; charset=utf-8",
             // dataType: "json" // 요청을 서버로해서 응답이 왔을 때 기본적으로 모든것이 문자열 (생긴게 json이라면)
