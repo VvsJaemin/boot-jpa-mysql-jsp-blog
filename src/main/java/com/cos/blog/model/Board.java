@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,12 +26,14 @@ public class Board {
     @Lob // 대용량 데이터
     private String content;
 
-    @ColumnDefault("0")
     private int count; // 조회수
 
     @ManyToOne // Many = board, User = One
     @JoinColumn(name = "userId")
     private User user; //DB는 오브젝트를 저장할수 없음 FK, 자바는 오브젝트 저장 할 수 있음
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY) // mappedBy 연관관계의 주인이 아니다.
+    private List<Reply> reply;
 
     @CreationTimestamp
     private Timestamp createDate;
