@@ -35,7 +35,7 @@
                         <a class="nav-link" href="/auth/loginForm">로그인</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/auth/joinProc">회원가입</a>
+                        <a class="nav-link" href="/auth/joinForm">회원가입</a>
                     </li>
                 </ul>
             </c:when>
