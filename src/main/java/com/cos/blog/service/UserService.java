@@ -5,6 +5,11 @@ import com.cos.blog.model.User;
 import com.cos.blog.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +22,9 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-
     private final BCryptPasswordEncoder encode;
+
+    private final AuthenticationManager authenticationManager;
 
     @Transactional
     public void userSave(User user) {
@@ -44,6 +50,8 @@ public class UserService {
         String encPassword = encode.encode(rawPassword);
         persistence.setPassword(encPassword);
         persistence.setEmail(user.getEmail());
+
+        userRepository.save(persistence);
 
         // 회원 수정 함수 종료시 = 서비스 종료 = 트랜잭션 종료 = commit
         // 영속화된 persistence 객체의 변화 감지되면 더티체킹이되어 update문을 날려줌
