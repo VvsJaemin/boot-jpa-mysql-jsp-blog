@@ -26,6 +26,16 @@ public class UserService {
 
     private final AuthenticationManager authenticationManager;
 
+    @Transactional(readOnly = true)
+    public User findUser(String username) {
+
+        User user = userRepository.findByUsername(username).orElseGet(() -> {
+            return new User();
+        });
+
+        return user;
+    }
+
     @Transactional
     public void userSave(User user) {
 
@@ -46,10 +56,14 @@ public class UserService {
         User persistence = userRepository.findById(user.getId()).orElseThrow(() -> {
             return new IllegalArgumentException("회원 찾기 실패");
         });
-        String rawPassword = user.getPassword();
-        String encPassword = encode.encode(rawPassword);
-        persistence.setPassword(encPassword);
-        persistence.setEmail(user.getEmail());
+
+        // Validate 체크크
+        if (persistence.getOauth() == null || persistence.getOauth().equals("")) {
+            String rawPassword = user.getPassword();
+            String encPassword = encode.encode(rawPassword);
+            persistence.setPassword(encPassword);
+            persistence.setEmail(user.getEmail());
+        }
 
         userRepository.save(persistence);
 
