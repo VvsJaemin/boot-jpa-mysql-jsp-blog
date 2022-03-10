@@ -9,6 +9,9 @@ let index = {
         $("#btn-update").on("click", () => { // this 바인딩을 위해 화살표 함수 사용
             this.update();
         });
+        $("#btn-reply-save").on("click", () => { // this 바인딩을 위해 화살표 함수 사용
+            this.replySave();
+        });
     },
 
     save: function () {
@@ -61,7 +64,27 @@ let index = {
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
-    }
+    },
+    replySave: function () {
+        // alert("user의 save함수 호출됨");
+        let data = {
+            userId: $("#userId").val(),
+            boardId: $("#boardId").val(),
+            content: $("#reply-content").val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: `/api/board/${data.boardId}/reply`,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+        }).done(function (resp) {
+            alert("댓글 작성이 완료되었습니다.");
+            location.href = `/board/${data.boardId}`;
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    },
 }
 
 index.init();
