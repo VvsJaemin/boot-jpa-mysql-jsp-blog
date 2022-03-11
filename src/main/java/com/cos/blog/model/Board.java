@@ -34,7 +34,7 @@ public class Board {
     @JoinColumn(name = "userId")
     private User user; //DB는 오브젝트를 저장할수 없음 FK, 자바는 오브젝트 저장 할 수 있음
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY) // mappedBy 연관관계의 주인이 아니다.
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) // mappedBy 연관관계의 주인이 아니다.
     @JsonIgnoreProperties({"board"})
     @OrderBy("id desc")
     private List<Reply> replys;
