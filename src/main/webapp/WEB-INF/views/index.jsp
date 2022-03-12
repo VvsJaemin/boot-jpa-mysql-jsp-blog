@@ -6,6 +6,10 @@
 <%@ include file="layout/header.jsp"%>
 
 <div class="container">
+    <form action="/board/search" method="get" class="form-inline d-flex justify-content-end">
+        <input type="text" id="word" name="word" class="form-control form-control-sm" style="margin: 10px;">
+        <button class="btn btn-outline-info btn-sm">검색</button>
+    </form>
     <c:forEach var="board" items="${boards.content}">
     <div class="card m-2">
         <div class="card-body">

@@ -15,6 +15,7 @@
     <div>
         글 번호 : <span id="id"><i>${board.id}</i></span>
         작성자 : <span><i>${board.user.username}</i></span>
+        조회수 : <span ><i>${board.count}</i></span>
     </div>
     <br/>
     <div>
@@ -30,10 +31,10 @@
         <form>
             <input type="hidden" id="userId" value="${principal.user.id}"/>
             <input type="hidden" id="boardId" value="${board.id}"/>
-        <div class="card-body"><textarea id="reply-content" class="form-control" rows="1"></textarea></div>
-        <div class="card-footer">
-            <button type="button" id="btn-reply-save" class="btn btn-primary">등록</button>
-        </div>
+            <div class="card-body"><textarea id="reply-content" class="form-control" rows="1"></textarea></div>
+            <div class="card-footer">
+                <button type="button" id="btn-reply-save" class="btn btn-primary">등록</button>
+            </div>
         </form>
     </div>
     <br/>
@@ -46,7 +47,7 @@
                     <div class="d-flex">
                         <div class="font-italic">작성자 : ${reply.user.username} &nbsp;</div>
                         <c:if test="${reply.user.id==principal.user.id}">
-                        <button onclick="index.replyDelete(${board.id}, ${reply.id})" class="badge">삭제</button>
+                            <button onclick="index.replyDelete(${board.id}, ${reply.id})" class="badge">삭제</button>
                         </c:if>
                     </div>
                 </li>

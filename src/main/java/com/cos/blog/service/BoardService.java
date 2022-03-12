@@ -35,14 +35,40 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public Page<Board> boardList(Pageable pageable) {
+
         return boardRepository.findAll(pageable);
     }
 
     @Transactional(readOnly = true)
+    public List<Board> searchContent(String word) {
+
+        List<Board> searchBoardList =null;
+
+            searchBoardList = boardRepository.findByContentContaining(word);
+
+        return searchBoardList;
+    }
+
+    @Transactional(readOnly = true)
     public Board boardRead(int id) {
+
         return boardRepository.findById(id).orElseThrow(() -> {
             return new IllegalArgumentException("글 상세보기 실패 : 아이디를 찾을 수 없습니다.");
         });
+    }
+
+    @Transactional
+    public int updateView(int id) {
+
+        return boardRepository.updateView(id);
+    }
+
+    public Board boardCount(Board board) {
+        Board findBoard = boardRepository.findById(board.getCount()).get();
+        findBoard.setCount(findBoard.getCount() + 1);
+        boardRepository.save(findBoard);
+
+        return findBoard;
     }
 
     @Transactional

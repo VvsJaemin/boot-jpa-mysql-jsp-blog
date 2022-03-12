@@ -42,4 +42,8 @@ public class Board {
     @CreationTimestamp
     private Timestamp createDate;
 
+    public void increaseCount() {
+        this.count++;
+    }
+
 }
