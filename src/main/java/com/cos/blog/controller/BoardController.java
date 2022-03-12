@@ -4,6 +4,7 @@ import com.cos.blog.config.auth.PrincipalDetail;
 import com.cos.blog.model.Board;
 import com.cos.blog.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class BoardController {
 
     private final BoardService boardService;
@@ -47,7 +49,9 @@ public class BoardController {
     @GetMapping("/board/{id}")
     public String boardRead(@PathVariable int id, Model model, HttpServletRequest request, HttpServletResponse response) {
         model.addAttribute("board", boardService.boardRead(id));
-        boardService.updateView(id);
+
+        viewCountCookie(id, request, response);
+
         return "board/detail";
     }
 
@@ -61,5 +65,40 @@ public class BoardController {
     public String saveForm() {
 
         return "board/saveForm";
+    }
+
+
+    private void viewCountCookie(int id, HttpServletRequest request, HttpServletResponse response) {
+        Cookie viewCookie = null;
+
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
+            for (int i = 0; i < cookies.length; i++) {
+                //만들어진 쿠키들을 확인하며, 만약 들어온 적 있다면 생성되었을 쿠키가 있는지 확인
+                if (cookies[i].getName().equals("|" + id + "|")) {
+                    //찾은 쿠키를 변수에 저장
+                    viewCookie = cookies[i];
+                }
+            }
+        }
+        //==========================================
+        //만들어진 쿠키가 없음을 확인하고 생성 -> 조회수 증가
+        if (viewCookie == null) {
+            try {
+                //이 페이지에 왔다는 증거용(?) 쿠키 생성
+                Cookie newCookie = new Cookie("|" + id + "|", "readCount");
+                response.addCookie(newCookie);
+
+                //쿠키가 없으니 증가 로직 진행
+                boardService.updateView(id);
+
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+            //만들어진 쿠키가 있으면 조회수 증가 진행하지 않음
+        } else {
+            String value = viewCookie.getValue();
+        }
     }
 }

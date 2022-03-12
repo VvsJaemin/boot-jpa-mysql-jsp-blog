@@ -60,6 +60,7 @@ public class BoardService {
     @Transactional
     public int updateView(int id) {
 
+
         return boardRepository.updateView(id);
     }
 
