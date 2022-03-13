@@ -30,8 +30,10 @@ public class BoardController {
 
     @GetMapping("/")
     public String index(Model model,
-                        @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)
+                        @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)
                                 Pageable pageable) { // 컨트롤러에서 세션을 어떻게 찾을까?
+
+
 
         model.addAttribute("boards", boardService.boardList(pageable));
 

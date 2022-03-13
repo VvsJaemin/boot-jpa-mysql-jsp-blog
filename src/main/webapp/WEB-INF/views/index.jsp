@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<%@ include file="layout/header.jsp"%>
+<%@ include file="layout/header.jsp" %>
 
 <div class="container">
     <form action="/board/search" method="get" class="form-inline d-flex justify-content-end">
@@ -11,22 +11,26 @@
         <button class="btn btn-outline-info btn-sm">검색</button>
     </form>
     <c:forEach var="board" items="${boards.content}">
-    <div class="card m-2">
-        <div class="card-body">
-            <h4 class="card-title">${board.title}</h4>
-            <a href="/board/${board.id}" class="btn btn-primary">상세보기</a>
+        <div class="card m-2">
+            <div class="card-body">
+                <h4 class="card-title">${board.title}</h4>
+                <a href="/board/${board.id}" class="btn btn-primary">상세보기</a>
+            </div>
         </div>
-    </div>
     </c:forEach>
     <ul class="pagination justify-content-center">
+        <li class="page-item"><a class="page-link" href="?page=${boards.first}"><<</a></li>
         <c:choose>
             <c:when test="${boards.first}">
-        <li class="page-item disabled"><a class="page-link" href="?page=${boards.number-1}">Previous</a></li>
+                <li class="page-item disabled"><a class="page-link" href="?page=${boards.number-1}">Previous</a></li>
             </c:when>
             <c:otherwise>
                 <li class="page-item"><a class="page-link" href="?page=${boards.number-1}">Previous</a></li>
             </c:otherwise>
         </c:choose>
+
+
+        <c:forEach var="page" begin="0" end="${boards.totalPages-1}" step="1"> </c:forEach>
 
         <c:choose>
             <c:when test="${boards.last}">
@@ -36,8 +40,10 @@
                 <li class="page-item"><a class="page-link" href="?page=${boards.number+1}">Next</a></li>
             </c:otherwise>
         </c:choose>
+
+        <li class="page-item"><a class="page-link" href="?page=${boards.totalPages-1}">>></a></li>
     </ul>
 
 </div>
 
-<%@ include file="layout/footer.jsp"%>
+<%@ include file="layout/footer.jsp" %>
