@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,20 +35,29 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Board> boardList(Pageable pageable) {
+    public Page<Board> boardList(Pageable pageable,String word, String field) {
+        Page<Board> ulist=boardRepository.findAll(pageable);
 
-        return boardRepository.findAll(pageable);
+        if (field.equals("title")) {
+            ulist = boardRepository.findByTitleContainingIgnoreCase(word, pageable, field);
+        } else if (field.equals("content")) {
+            ulist = boardRepository.findByContentContainingIgnoreCase(word, pageable, field);
+        }
+        return ulist;
     }
 
-    @Transactional(readOnly = true)
-    public List<Board> searchContent(String word) {
-
-        List<Board> searchBoardList =null;
-
-            searchBoardList = boardRepository.findByContentContaining(word);
-
-        return searchBoardList;
-    }
+//    @Transactional(readOnly = true)
+//    public List<Board> searchContent(String word, String field) {
+//
+//        List<Board> searchBoardList = new ArrayList<>();
+//        if (field.equals("title")) {
+//            searchBoardList = boardRepository.findByTitleContainingIgnoreCase(word);
+//        } else if (field.equals("content")) {
+//            searchBoardList = boardRepository.findByContentContainingIgnoreCase(word);
+//        }
+//
+//        return searchBoardList;
+//    }
 
     @Transactional(readOnly = true)
     public Board boardRead(int id) {

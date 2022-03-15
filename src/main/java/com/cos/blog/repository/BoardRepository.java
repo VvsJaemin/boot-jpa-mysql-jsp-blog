@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board, Integer> {
 
-    List<Board> findByContentContaining(String content);
+    Page<Board> findByContentContainingIgnoreCase(String content, Pageable pageable, String field);
 
-    List<Board> findByTitleContaining(String title);
+    Page<Board> findByTitleContainingIgnoreCase(String title, Pageable pageable, String field);
 
     @Modifying
     @Query("update Board p set p.count = p.count + 1 where p.id = :id")

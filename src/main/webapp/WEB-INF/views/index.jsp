@@ -6,10 +6,19 @@
 <%@ include file="layout/header.jsp" %>
 
 <div class="container">
-    <form action="/board/search" method="get" class="form-inline d-flex justify-content-end">
+    <form action="?field=${boards.field}&word=${boards.word}" class="form-inline d-flex justify-content-end" method="GET">
+        <select name="field" id="field" class="form-control form-control-sm">
+            <option value="title">제목</option>
+            <option value="content">검색</option>
+        </select>
         <input type="text" id="word" name="word" class="form-control form-control-sm" style="margin: 10px;">
-        <button class="btn btn-outline-info btn-sm">검색</button>
+        <input type="submit" class="btn btn-outline-info btn-sm" value="검색">
     </form>
+
+<%--    <form action="/board/search" method="get" class="form-inline d-flex justify-content-end">--%>
+<%--        <input type="text" id="word" name="word" class="form-control form-control-sm" style="margin: 10px;">--%>
+<%--        <button class="btn btn-outline-info btn-sm">검색</button>--%>
+<%--    </form>--%>
     <c:forEach var="board" items="${boards.content}">
         <div class="card m-2">
             <div class="card-body">
@@ -30,7 +39,9 @@
         </c:choose>
 
 
-        <c:forEach var="page" begin="0" end="${boards.totalPages-1}" step="1"> </c:forEach>
+        <c:forEach var="page" begin="0" end="${boards.totalPages-1}" step="1">
+            <li class="page-item"> <a class="page-link" href="?page=${page}">${page+1}</a></li>
+        </c:forEach>
 
         <c:choose>
             <c:when test="${boards.last}">

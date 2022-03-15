@@ -30,23 +30,34 @@ public class BoardController {
 
     @GetMapping("/")
     public String index(Model model,
-                        @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)
-                                Pageable pageable) { // 컨트롤러에서 세션을 어떻게 찾을까?
+                        @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                        @RequestParam(required = false, defaultValue = "") String field,  // 컨트롤러에서 세션을 어떻게 찾을까?
+                        @RequestParam(required = false, defaultValue = "") String word) { // 컨트롤러에서 세션을 어떻게 찾을까?
+
+        Page<Board> ulist = boardService.boardList(pageable, word, field);
 
 
+//        if (field.equals("title")) {
+//            ulist = boardService.searchContent(word, field);
+//        } else if (field.equals("content")) {
+//            ulist = boardService.searchContent(word, field, pageable);
+//        }
 
-        model.addAttribute("boards", boardService.boardList(pageable));
+        model.addAttribute("boards", boardService.boardList(pageable, word, field));
+        model.addAttribute("ulist", ulist);
+
+        System.out.println("ulist = " + ulist);
 
         return "index"; //viewResolver 작동
     }
 
-    @GetMapping("/board/search")
-    public String boardSearch(@RequestParam(value = "word") String word, @RequestParam(required = false, defaultValue = "") String field, Model model, Pageable pageable) {
-
-        model.addAttribute("boardList", boardService.searchContent(word));
-
-        return "index";
-    }
+//    @GetMapping("/board/search")
+//    public String boardSearch(@RequestParam(value = "word") String word, @RequestParam(required = false, defaultValue = "") String field, Model model, Pageable pageable) {
+//
+//        model.addAttribute("boardList", boardService.searchContent(word));
+//
+//        return "index";
+//    }
 
     @GetMapping("/board/{id}")
     public String boardRead(@PathVariable int id, Model model, HttpServletRequest request, HttpServletResponse response) {
