@@ -34,19 +34,10 @@ public class BoardController {
                         @RequestParam(required = false, defaultValue = "") String field,  // 컨트롤러에서 세션을 어떻게 찾을까?
                         @RequestParam(required = false, defaultValue = "") String word) { // 컨트롤러에서 세션을 어떻게 찾을까?
 
-        Page<Board> ulist = boardService.boardList(pageable, word, field);
+//        Page<Board> ulist = boardService.boardList(pageable, word, field);
+        Page<Board> list = boardService.searchTitleOrContent(pageable, word, word);;
 
-
-//        if (field.equals("title")) {
-//            ulist = boardService.searchContent(word, field);
-//        } else if (field.equals("content")) {
-//            ulist = boardService.searchContent(word, field, pageable);
-//        }
-
-        model.addAttribute("boards", boardService.boardList(pageable, word, field));
-        model.addAttribute("ulist", ulist);
-
-        System.out.println("ulist = " + ulist);
+        model.addAttribute("boards", list);
 
         return "index"; //viewResolver 작동
     }

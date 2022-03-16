@@ -6,12 +6,12 @@
 <%@ include file="layout/header.jsp" %>
 
 <div class="container">
-    <form action="?field=${boards.field}&word=${boards.word}" class="form-inline d-flex justify-content-end" method="GET">
-        <select name="field" id="field" class="form-control form-control-sm">
-            <option value="title">제목</option>
-            <option value="content">검색</option>
-        </select>
-        <input type="text" id="word" name="word" class="form-control form-control-sm" style="margin: 10px;">
+    <form action="/" class="form-inline d-flex justify-content-end" method="GET">
+<%--        <select id="field" name="field" class="form-control form-control-sm">--%>
+<%--            <option value="title">제목</option>--%>
+<%--            <option value="content">내용</option>--%>
+<%--        </select>--%>
+        <input type="text" id="word" name="word" class="form-control form-control-sm" style="margin: 10px" placeholder="검색어를 입력하세요.">
         <input type="submit" class="btn btn-outline-info btn-sm" value="검색">
     </form>
 

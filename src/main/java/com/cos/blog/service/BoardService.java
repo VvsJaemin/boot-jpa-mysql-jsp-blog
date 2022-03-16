@@ -35,29 +35,29 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Board> boardList(Pageable pageable,String word, String field) {
-        Page<Board> ulist=boardRepository.findAll(pageable);
-
-        if (field.equals("title")) {
-            ulist = boardRepository.findByTitleContainingIgnoreCase(word, pageable, field);
-        } else if (field.equals("content")) {
-            ulist = boardRepository.findByContentContainingIgnoreCase(word, pageable, field);
-        }
+    public Page<Board> searchTitle(Pageable pageable,String word) {
+        Page<Board> ulist = boardRepository.findByTitleContainingIgnoreCase(word, pageable);
         return ulist;
     }
 
-//    @Transactional(readOnly = true)
-//    public List<Board> searchContent(String word, String field) {
-//
-//        List<Board> searchBoardList = new ArrayList<>();
-//        if (field.equals("title")) {
-//            searchBoardList = boardRepository.findByTitleContainingIgnoreCase(word);
-//        } else if (field.equals("content")) {
-//            searchBoardList = boardRepository.findByContentContainingIgnoreCase(word);
-//        }
-//
-//        return searchBoardList;
-//    }
+    @Transactional(readOnly = true)
+    public Page<Board> searchContent(Pageable pageable,String word) {
+        Page<Board> ulist = boardRepository.findByContentContainingIgnoreCase(word,  pageable);
+        return ulist;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Board> searchTitleOrContent(Pageable pageable,String word, String word2) {
+        Page<Board> ulist = boardRepository.findByTitleContainingOrContentContaining(word, word2, pageable);
+        return ulist;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Board> boardList(Pageable pageable) {
+        Page<Board> ulist = boardRepository.findAll(pageable);
+
+        return ulist;
+    }
 
     @Transactional(readOnly = true)
     public Board boardRead(int id) {
