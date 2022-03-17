@@ -47,8 +47,8 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Board> searchTitleOrContent(Pageable pageable,String word, String word2) {
-        Page<Board> ulist = boardRepository.findByTitleContainingOrContentContaining(word, word2, pageable);
+    public Page<Board> searchTitleContent(Pageable pageable,String word) {
+        Page<Board> ulist = boardRepository.findByTitleContainingAndContentContaining(word, word, pageable);
         return ulist;
     }
 

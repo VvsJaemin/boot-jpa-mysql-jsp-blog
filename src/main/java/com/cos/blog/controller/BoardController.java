@@ -31,24 +31,25 @@ public class BoardController {
     @GetMapping("/")
     public String index(Model model,
                         @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-                        @RequestParam(required = false, defaultValue = "") String field,  // 컨트롤러에서 세션을 어떻게 찾을까?
+                        @RequestParam(required = false, defaultValue = "제목") String field,
+                        @RequestParam(required = false, defaultValue = "내용") String field2,
+                        @RequestParam(required = false, defaultValue = "제목+내용") String field3,
                         @RequestParam(required = false, defaultValue = "") String word) { // 컨트롤러에서 세션을 어떻게 찾을까?
 
-//        Page<Board> ulist = boardService.boardList(pageable, word, field);
-        Page<Board> list = boardService.searchTitleOrContent(pageable, word, word);;
+        Page<Board> list = null;
+
+        if (field.equals("제목")) {
+            list = boardService.searchTitle(pageable, word);
+        } else if (field2.equals("내용")) {
+            list = boardService.searchContent(pageable, word);
+        }else if (field3.equals("tc")) {
+            list = boardService.searchTitleContent(pageable, word);
+        }
 
         model.addAttribute("boards", list);
 
         return "index"; //viewResolver 작동
     }
-
-//    @GetMapping("/board/search")
-//    public String boardSearch(@RequestParam(value = "word") String word, @RequestParam(required = false, defaultValue = "") String field, Model model, Pageable pageable) {
-//
-//        model.addAttribute("boardList", boardService.searchContent(word));
-//
-//        return "index";
-//    }
 
     @GetMapping("/board/{id}")
     public String boardRead(@PathVariable int id, Model model, HttpServletRequest request, HttpServletResponse response) {

@@ -7,12 +7,13 @@
 
 <div class="container">
     <form action="/" class="form-inline d-flex justify-content-end" method="GET">
-<%--        <select id="field" name="field" class="form-control form-control-sm">--%>
-<%--            <option value="title">제목</option>--%>
-<%--            <option value="content">내용</option>--%>
-<%--        </select>--%>
+        <select id="field" name="field" class="form-control form-control-sm">
+            <option value="제목">제목</option>
+            <option value="내용">내용</option>
+            <option value="tc">제목+내용</option>
+        </select>
         <input type="text" id="word" name="word" class="form-control form-control-sm" style="margin: 10px" placeholder="검색어를 입력하세요.">
-        <input type="submit" class="btn btn-outline-info btn-sm" value="검색">
+        <input type="submit" class="btn btn-outline-info btn-sm"  value="검색">
     </form>
 
 <%--    <form action="/board/search" method="get" class="form-inline d-flex justify-content-end">--%>
@@ -54,7 +55,7 @@
 
         <li class="page-item"><a class="page-link" href="?page=${boards.totalPages-1}">>></a></li>
     </ul>
-
 </div>
+
 
 <%@ include file="layout/footer.jsp" %>
